@@ -39,7 +39,9 @@ for x in fases:
             
         else:
             pass
-
-for x in id_vk:
-    us = search(x)
-    print('\n',f'id: {x}, Name: {us[1]}, Bdate: {us[2]}, City: {us[3]}, Country: {us[4]}')
+if id_vk != []:
+    for x in id_vk:
+        us = search(x)
+        print('\n',f'id: {x}, Name: {us[1]}, Bdate: {us[2]}, City: {us[3]}, Country: {us[4]}')
+else:
+    print('Not Found')
