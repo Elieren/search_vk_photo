@@ -33,7 +33,9 @@ for x in fases:
         if results[0] == True:
             print('+')
             id_p = re.split('/', x)
-            id_vk.append(id_p[2])
+            p = id_p[2]
+            if p not in id_vk:
+                id_vk.append(p)
             
         else:
             pass
