@@ -6,7 +6,7 @@ import sqlite3
 fases = []
 id_vk = []
 
-connect = sqlite3.connect('orders.db')
+connect = sqlite3.connect('base.db')
 cursor = connect.cursor()
 
 def search(id_vk):

@@ -9,7 +9,7 @@ fases = []
 name = []
 images = []
 
-connect = sqlite3.connect('orders.db')
+connect = sqlite3.connect('base.db')
 cursor = connect.cursor()
 
 for dirpath, dirnames, filenames in os.walk(".\\id\\"):

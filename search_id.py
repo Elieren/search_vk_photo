@@ -5,10 +5,10 @@ import lxml
 import requests
 import re
 
-connect = sqlite3.connect('orders.db')
+connect = sqlite3.connect('base.db')
 cursor = connect.cursor()
 
-access_token = 'c0327326225b38a1107014a3c02b4e3b2415ee699d670785cba4ffa293e68a8e188155189110da611a100'
+access_token = '' #Vk_token
 api_version = '5.89'
 
 cursor.execute("""CREATE TABLE IF NOT EXISTS users(
