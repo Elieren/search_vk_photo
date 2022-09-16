@@ -47,12 +47,12 @@ encodeListKnown, name = Encodings(images, fases)
 print(name)
 print("I'm listening")
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture("C:\\Users\\kazan\\Downloads\\123.mp4")
 
 while True:
     success, img = cap.read()
     imgS = cv2.resize(img, (0, 0), None, 0.25, 0.25)
-    imgS = cv2.cvtColor(imgS, cv2.COLOR_BGR2GRAY)
+    imgS = cv2.cvtColor(imgS, cv2.COLOR_BGR2RGB)
 
     facesCurFrame = face_recognition.face_locations(imgS)
     encodeCurFrame = face_recognition.face_encodings(imgS, facesCurFrame)
