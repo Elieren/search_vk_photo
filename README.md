@@ -8,20 +8,20 @@ for Linux
 
 In file search_id.py you need to insert your vk_token
 
-__search_id.py__
+__python3 search_id.py__
 
 Create a database with user data (base.db)
 
 ## Download user photos (20 pieces)
 
-__downloads_photo.py__
+__python3 downloads_photo.py__
 
 Create a folder where all the photos are stored (id)
 
 ## Search by photo
 
-__search.py__
+__python3 search.py__
 
 ## Live search by camera
 
-__cam_search.py__
+__python3 cam_search.py__
