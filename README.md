@@ -1,6 +1,6 @@
 # search_face
 
-for Windows
+for Linux
 
 Тhis program downloads photos and user data from VK and searches for a person from your photo in real time.
 
