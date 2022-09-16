@@ -47,7 +47,7 @@ encodeListKnown, name = Encodings(images, fases)
 print(name)
 print("I'm listening")
 
-cap = cv2.VideoCapture("C:\\Users\\kazan\\Downloads\\123.mp4")
+cap = cv2.VideoCapture(0)
 
 while True:
     success, img = cap.read()
