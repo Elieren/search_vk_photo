@@ -4,10 +4,14 @@ import cv2
 import os
 import re
 import sqlite3
+import pickle
 
 fases = []
 name = []
 images = []
+
+with open('dataset_faces.dat', 'rb') as file:
+	encodeListKnown = pickle.load(file)
 
 connect = sqlite3.connect('base.db')
 cursor = connect.cursor()
@@ -16,26 +20,18 @@ for dirpath, dirnames, filenames in os.walk("./id/"):
     for filename in filenames:
         fases.append(f'{dirpath}/{filename}')
 
-for x in fases:
-    Img = cv2.imread(x)
-    images.append(Img)
-
-
-def Encodings(images, fases):
+def Encodings(fases):
     encodeList = []
     l = 0
-    for img in images:
-        img_e = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    for x in fases:
         try:
-            encode = face_recognition.face_encodings(img_e)[0]
             id_p = re.split('/', fases[l])
             p = id_p[2]
             name.append(p)
-            encodeList.append(encode)
         except:
             pass
         l += 1
-    return encodeList, name
+    return name
 
 def search(id_vk):
 	cursor.execute(f"""SELECT * FROM users WHERE id_vk = '{id_vk}';""")
@@ -43,7 +39,7 @@ def search(id_vk):
 	return us
 
 
-encodeListKnown, name = Encodings(images, fases)
+name = Encodings(fases)
 print(name)
 print("I'm listening")
 

@@ -7,21 +7,30 @@ for Linux
 ## Creation of databases with user accounts.
 
 In file search_id.py you need to insert your vk_token
-
-__python3 search_id.py__
-
+```
+python3 search_id.py
+```
 Create a database with user data (base.db)
 
 ## Download user photos (20 pieces)
-
-__python3 downloads_photo.py__
-
+```
+python3 downloads_photo.py
+```
 Create a folder where all the photos are stored (id)
 
-## Search by photo
+## Encode photo to database
+```
+python3 EncodeFace.py
+```
 
-__python3 search.py__
+Dataset_faces.dat file will be created
+
+## Search by photo
+```
+python3 search.py
+```
 
 ## Live search by camera
-
-__python3 cam_search.py__
+```
+python3 cam_search.py
+```
