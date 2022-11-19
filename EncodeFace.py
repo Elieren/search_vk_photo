@@ -17,7 +17,7 @@ for x in fases:
     images.append(Img)
 
 
-def Encodings(images):
+def Encodings(images, fases):
     encodeList = []
     try:
         for img in images:
@@ -25,14 +25,20 @@ def Encodings(images):
             try:
                 encode = face_recognition.face_encodings(img_e)[0]
                 encodeList.append(encode)
+                id_p = re.split('/', fases[l])
+                p = id_p[2]
+                name.append(p)
             except:
                 pass
     except:
         pass
-    return encodeList
+    return encodeList, name
 
 
-encodeListKnown = Encodings(images)
+encodeListKnown, name = Encodings(images, fases)
 
 with open('dataset_faces.dat', 'wb') as file:
     pickle.dump(encodeListKnown, file)
+
+with open('dataset_name.dat', 'wb') as file:
+    pickle.dump(name, file)

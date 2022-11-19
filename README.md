@@ -23,7 +23,7 @@ Create a folder where all the photos are stored (id)
 python3 EncodeFace.py
 ```
 
-Dataset_faces.dat file will be created
+Dataset_faces.dat and dataset_name.dat files will be created
 
 ## Search by photo
 ```

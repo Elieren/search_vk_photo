@@ -13,6 +13,9 @@ images = []
 with open('dataset_faces.dat', 'rb') as file:
 	encodeListKnown = pickle.load(file)
 
+with open('dataset_name.dat', 'rb') as file:
+	name = pickle.load(file)
+
 connect = sqlite3.connect('base.db')
 cursor = connect.cursor()
 
@@ -20,26 +23,11 @@ for dirpath, dirnames, filenames in os.walk("./id/"):
     for filename in filenames:
         fases.append(f'{dirpath}/{filename}')
 
-def Encodings(fases):
-    encodeList = []
-    l = 0
-    for x in fases:
-        try:
-            id_p = re.split('/', fases[l])
-            p = id_p[2]
-            name.append(p)
-        except:
-            pass
-        l += 1
-    return name
-
 def search(id_vk):
 	cursor.execute(f"""SELECT * FROM users WHERE id_vk = '{id_vk}';""")
 	us = cursor.fetchone()
 	return us
 
-
-name = Encodings(fases)
 print(name)
 print("I'm listening")
 
