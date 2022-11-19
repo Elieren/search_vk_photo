@@ -6,9 +6,7 @@ import re
 import sqlite3
 import pickle
 
-fases = []
 name = []
-images = []
 
 with open('dataset_faces.dat', 'rb') as file:
 	encodeListKnown = pickle.load(file)
@@ -18,10 +16,6 @@ with open('dataset_name.dat', 'rb') as file:
 
 connect = sqlite3.connect('base.db')
 cursor = connect.cursor()
-
-for dirpath, dirnames, filenames in os.walk("./id/"):
-    for filename in filenames:
-        fases.append(f'{dirpath}/{filename}')
 
 def search(id_vk):
 	cursor.execute(f"""SELECT * FROM users WHERE id_vk = '{id_vk}';""")
