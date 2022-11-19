@@ -19,19 +19,18 @@ for x in fases:
 
 def Encodings(images, fases):
     encodeList = []
-    try:
-        for img in images:
-            img_e = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-            try:
-                encode = face_recognition.face_encodings(img_e)[0]
-                encodeList.append(encode)
-                id_p = re.split('/', fases[l])
-                p = id_p[2]
-                name.append(p)
-            except:
-                pass
-    except:
-        pass
+    l = 0
+    for img in images:
+        img_e = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        try:
+            encode = face_recognition.face_encodings(img_e)[0]
+            encodeList.append(encode)
+            id_p = re.split('/', fases[l])
+            p = id_p[2]
+            name.append(p)
+        except:
+            pass
+        l += 1
     return encodeList, name
 
 
