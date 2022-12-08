@@ -18,18 +18,18 @@ python3 downloads_photo.py
 ```
 Create a folder where all the photos are stored (id)
 
+# Encode photo to database
+```
+python3 EncodeFace.py
+```
+
+Dataset_faces.dat and dataset_name.dat files will be created
 ## Search by photo
 ```
 python3 search.py
 ```
 
 ## Live search by camera
-### Encode photo to database
-```
-python3 EncodeFace.py
-```
-
-Dataset_faces.dat and dataset_name.dat files will be created
 
 ### Start camera
 ```
