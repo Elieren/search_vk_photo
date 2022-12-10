@@ -4,6 +4,7 @@ import cv2
 import os
 import re
 import pickle
+from progress.bar import IncrementalBar
 
 fases = []
 images = []
@@ -11,6 +12,8 @@ images = []
 for dirpath, dirnames, filenames in os.walk("./id/"):
     for filename in filenames:
         fases.append(f'{dirpath}/{filename}')
+
+bar = IncrementalBar('Progress encode', max=len(fases))
 
 for x in fases:
     Img = cv2.imread(x)
@@ -31,11 +34,13 @@ def Encodings(images, fases):
             name.append(p)
         except:
             pass
+        bar.next()
         l += 1
     return encodeList, name
 
 
 encodeListKnown, name = Encodings(images, fases)
+bar.finish()
 
 with open('dataset_faces.dat', 'wb') as file:
     pickle.dump(encodeListKnown, file)
