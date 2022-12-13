@@ -62,7 +62,7 @@ elif serv == 'one':
     with open('dataset_name.dat', 'rb') as file:
         name = pickle.load(file)
 
-    fold = str(input('img: '))
+    fold = str(input('Path to photo: '))
     id_a = str(input('id: '))
     name_a = str(input('name: '))
     bdata = str(input('bdata: '))
