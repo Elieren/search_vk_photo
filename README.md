@@ -2,36 +2,16 @@
 
 for Linux
 
-Тhis program downloads photos and user data from VK and searches for a person from your photo in real time.
+## Server and client
 
-## Creation of databases with user accounts.
-
-In file search_id.py you need to insert your vk_token
+### Start server
 ```
-python3 search_id.py
+python3 server.py
 ```
-Create a database with user data (base.db)
-
-## Download user photos (20 pieces)
+### Start client
 ```
-python3 downloads_photo.py
-```
-Create a folder where all the photos are stored (id)
-
-# Encode photo to database
-```
-python3 EncodeFace.py
+python3 client.py
 ```
 
-Dataset_faces.dat and dataset_name.dat files will be created
-## Search by photo
-```
-python3 search.py
-```
-
-## Live search by camera
-
-### Start camera
-```
-python3 cam_search.py
-```
+## !
+Port 9090
