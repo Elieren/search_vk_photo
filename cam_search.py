@@ -7,6 +7,8 @@ import sqlite3
 import pickle
 
 name = []
+namd = []
+mam = []
 
 with open('dataset_faces.dat', 'rb') as file:
 	encodeListKnown = pickle.load(file)
@@ -22,10 +24,26 @@ def search(id_vk):
 	us = cursor.fetchone()
 	return us
 
+def nick(name_a):
+    global namd
+    for x in name_a:
+        if x not in namd:
+            us = search(x)
+            print(
+                '\n', f'id: {x}, Name: {us[1]}, Bdate: {us[2]}, City: {us[3]}, Country: {us[4]}')
+            namd.append(x)
+        else:
+            pass
+    for x in namd:
+        if x not in name_a:
+            namd.remove(x)
+            print(' id:', x, 'leave')
+
+
 print(name)
 print("I'm listening")
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture('1.mp4')
 
 while True:
     success, img = cap.read()
@@ -34,6 +52,8 @@ while True:
 
     facesCurFrame = face_recognition.face_locations(imgS)
     encodeCurFrame = face_recognition.face_encodings(imgS, facesCurFrame)
+    nick(mam)
+    mam = []
 
     for encodeFace, faceLoc in zip(encodeCurFrame, facesCurFrame):
         matches = face_recognition.compare_faces(encodeListKnown, encodeFace)
@@ -43,8 +63,7 @@ while True:
 
         if matches[matchIndex]:
             name_a = str((name[matchIndex]))
-            us = search(name[matchIndex])
-            print('\n', f'id: {name[matchIndex]}, Name: {us[1]}, Bdate: {us[2]}, City: {us[3]}, Country: {us[4]}')
+            mam.append(name_a)
             #print(name)
             y1, x2, y2, x1 = faceLoc
             y1, x2, y2, x1 = y1 * 4, x2 * 4, y2 * 4, x1 * 4
