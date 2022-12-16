@@ -56,9 +56,11 @@ def img(url_adress, access_token, api_version):
          k = x['sizes'][-1]['url']
          links.append(k)
       url_img = ' !@! '.join(links)
+      a = 0
    except:
       url_img = "Not"
-   return url_img
+      a = 1
+   return url_img, a
 
 def add(url_adress, nick, b, city, country, link_image, cursor):
 	cursor.execute("INSERT INTO users VALUES(?, ?, ?, ?, ?, ?)",(url_adress, nick, b, city, country, link_image))
@@ -73,5 +75,8 @@ for x in range(1 ,100000000):
    nick = nick_name(k)
    b = day_b(k)
    city, country = strana(k)
-   link_image = img(url_adress, access_token, api_version)
-   add(url_adress, nick, b, city, country, link_image, cursor)
+   link_image, a = img(url_adress, access_token, api_version)
+   if a == 0:
+         add(url_adress, nick, b, city, country, link_image, cursor)
+   else:
+      pass
