@@ -3,6 +3,10 @@ import os
 import re
 import sqlite3
 import pickle
+import cv2
+import PIL.Image
+from io import BytesIO
+import numpy as np
 
 with open('dataset_faces.dat', 'rb') as file:
 	encodeListKnown = pickle.load(file)
@@ -23,9 +27,8 @@ def search(x):
     id_vk = []
     name_a = []
 
-    direct = str(x)
-    known_image = face_recognition.load_image_file(direct)
-    face_encoding_1 = face_recognition.face_encodings(known_image)
+    im = PIL.Image.open(BytesIO(x))
+    face_encoding_1 = face_recognition.face_encodings(np.array(im))
     if face_encoding_1 != []:
         for face_encoding in face_encoding_1:
             a = 0
