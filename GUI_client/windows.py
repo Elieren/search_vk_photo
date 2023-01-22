@@ -73,9 +73,9 @@ def error():
         lbl5 = customtkinter.CTkLabel(
             app, text='Version 1.0', font=("Arial Bold", 20))
         lbl5.place(relx=0.99, rely=0.96, anchor=tkinter.SE)
-    button = customtkinter.CTkButton(master=app, text="Restart", command=res)
+    button = customtkinter.CTkButton(master=app, text="Restart", command=res, font=("Arial Bold", 25))
     button.place(relx=0.5, rely=0.7, anchor=tkinter.CENTER)
-    button1 = customtkinter.CTkButton(master=app, text="Exit", command=ex)
+    button1 = customtkinter.CTkButton(master=app, text="Exit", command=ex, font=("Arial Bold", 25))
     button1.place(relx=0.5, rely=0.8, anchor=tkinter.CENTER)
     app.mainloop()
 
