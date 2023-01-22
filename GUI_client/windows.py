@@ -85,7 +85,7 @@ def res():
 
 
 def ex():
-    exit()
+    sys.exit()
 
 
 try:
