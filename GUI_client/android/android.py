@@ -44,6 +44,8 @@ MDFloatLayout:
 class FileChooser(MDApp):
 
     def build(self):
+        from android.permissions import request_permissions, Permission
+        request_permissions([Permission.READ_EXTERNAL_STORAGE])
         root = Builder.load_string(kv)
         try:
             client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
