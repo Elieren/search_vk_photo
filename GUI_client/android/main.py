@@ -24,21 +24,21 @@ MDFloatLayout:
     Image:
         source: 'banner.png'
         pos_hint: {"center_x": .5, "center_y": .8}
-        size_hint: .5, .5
+        size_hint: 1, 1
     MDLabel:
         id: version
         text: "version 1.0"
-        pos_hint: {"right": 1.8 , "center_y": .06 }
+        pos_hint: {"right": 1.88 , "center_y": .02 }
         theme_text_color: "Custom"
         text_color: 1, 1, 1, 1
-        font_size: 14
+        font_size: 24
     MDLabel:
         id: server_stat
         text: ""
-        pos_hint: {"right": 1.02 , "center_y": .06 }
+        pos_hint: {"right": 1.02 , "center_y": .02 }
         theme_text_color: "Custom"
         text_color: 1, 1, 1, 1
-        font_size: 14
+        font_size: 24
 """
 
 class FileChooser(MDApp):
@@ -75,6 +75,13 @@ class FileChooser(MDApp):
 
             message = client.recv(1024)
             data_id = message.decode('utf-8')
+            data_id1 = data_id.split('\n')
+            data_id = []
+            for x in range(len(data_id1)):
+                data_id2 = data_id1[x]
+                data_id3 = data_id2[2:]
+                data_id.append(data_id3)
+            data_id = '\n'.join(data_id)
             self.root.ids.server_stat.text = 'Server connect'
         except:
             data_id = ''
