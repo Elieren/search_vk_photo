@@ -25,7 +25,7 @@ android \
     main.py
 ```
 
-Run each command from the file in order.
+Run each command from the file in order. (Except !cd android/ && buildozer init)
 
 Wait for the file to finish compiling.
 
