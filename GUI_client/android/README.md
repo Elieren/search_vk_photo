@@ -3,7 +3,7 @@ Android (apk)
 ## Edit the file before compiling
 
 ```
-nano client_gui.py
+nano main.py
 
 server = ''
 ```
