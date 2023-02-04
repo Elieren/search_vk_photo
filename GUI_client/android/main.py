@@ -80,6 +80,8 @@ class FileChooser(MDApp):
             for x in range(len(data_id1)):
                 data_id2 = data_id1[x]
                 data_id3 = data_id2[2:]
+                if data_id3[:2] == 'id':
+                    data_id3 = '• ' + data_id3
                 data_id.append(data_id3)
             data_id = '\n'.join(data_id)
             self.root.ids.server_stat.text = 'Server connect'
