@@ -31,7 +31,7 @@ for i in range(a):
                 a += 1
                 image = face_recognition.load_image_file(f'id/{k}/{p}.jpg')
                 face_locations = face_recognition.face_locations(image)
-                if face_locations == []:
+                if (face_locations == []) or (len(face_locations) > 1):
                     os.remove(f'id/{k}/{p}.jpg')
                     a -= 1
                 else:
