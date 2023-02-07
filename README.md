@@ -35,3 +35,13 @@ python3 search.py
 ```
 python3 cam_search.py
 ```
+
+# We use Nvidia Cuda.
+Nvidia Cuda improves face detection accuracy.
+
+To turn it on. Add text as written below.
+
+```
+face_recognition.face_locations(known_image) => face_recognition.face_locations(known_image, model='cnn')
+```
+In all files where face_locations is used.

@@ -26,7 +26,8 @@ def search(id_vk):
 
 direct = str(input("Path to photo: "))
 known_image = face_recognition.load_image_file(direct)
-face_encoding = face_recognition.face_encodings(known_image)[0]
+facesCurFrame = face_recognition.face_locations(known_image)
+face_encoding = face_recognition.face_encodings(known_image, facesCurFrame)[0]
 
 
 while True:
