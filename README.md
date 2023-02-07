@@ -28,3 +28,12 @@ python3 client.py
 
 ## !
 Port 9090
+
+# We use Nvidia Cuda.
+Nvidia Cuda improves face detection accuracy.
+
+To turn it on. Add text as written below.
+
+```
+face_recognition.face_locations(np.array(im)) => face_recognition.face_locations(np.array(im), model='cnn')
+```

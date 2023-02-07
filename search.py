@@ -28,7 +28,8 @@ def search(x):
     name_a = []
 
     im = PIL.Image.open(BytesIO(x))
-    face_encoding_1 = face_recognition.face_encodings(np.array(im))
+    facesCurFrame = face_recognition.face_locations(np.array(im))
+    face_encoding_1 = face_recognition.face_encodings(np.array(im), facesCurFrame)
     if face_encoding_1 != []:
         for face_encoding in face_encoding_1:
             a = 0
