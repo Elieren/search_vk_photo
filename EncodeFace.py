@@ -31,7 +31,8 @@ if serv == 'all':
         for img in images:
             img_e = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
             try:
-                encode = face_recognition.face_encodings(img_e)[0]
+                facesCurFrame = face_recognition.face_locations(img_e)
+                encode = face_recognition.face_encodings(img_e, facesCurFrame)[0]
                 encodeList.append(encode)
                 id_p = re.split('/', fases[l])
                 p = id_p[2]
