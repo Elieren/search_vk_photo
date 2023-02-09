@@ -43,7 +43,7 @@ def nick(name_a):
 print(name)
 print("I'm listening")
 
-cap = cv2.VideoCapture('1.mp4')
+cap = cv2.VideoCapture(0)
 
 while True:
     success, img = cap.read()
@@ -58,29 +58,26 @@ while True:
     for encodeFace, faceLoc in zip(encodeCurFrame, facesCurFrame):
         matches = face_recognition.compare_faces(encodeListKnown, encodeFace)
         faceDis = face_recognition.face_distance(encodeListKnown, encodeFace)
-        #print(faceDis)
         matchIndex = np.argmin(faceDis)
 
         if matches[matchIndex]:
             name_a = str((name[matchIndex]))
             mam.append(name_a)
-            #print(name)
-            y1, x2, y2, x1 = faceLoc
-            y1, x2, y2, x1 = y1 * 4, x2 * 4, y2 * 4, x1 * 4
-            cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 2)
-            cv2.rectangle(img, (x1, y2 - 35), (x2, y2),
-                          (0, 255, 0), cv2.FILLED)
-            cv2.putText(img, name_a, (x1 + 6, y2 - 6),
-                        cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 2)
+            Green = 255
+            Red = 0
+
         else:
             name_a = 'Not'
-            y1, x2, y2, x1 = faceLoc
-            y1, x2, y2, x1 = y1 * 4, x2 * 4, y2 * 4, x1 * 4
-            cv2.rectangle(img, (x1, y1), (x2, y2), (0, 0, 255), 2)
-            cv2.rectangle(img, (x1, y2 - 35), (x2, y2),
-                          (0, 0, 255), cv2.FILLED)
-            cv2.putText(img, name_a, (x1 + 6, y2 - 6),
-                        cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 2)
+            Green = 0
+            Red = 255
+
+        y1, x2, y2, x1 = faceLoc
+        y1, x2, y2, x1 = y1 * 4, x2 * 4, y2 * 4, x1 * 4
+        cv2.rectangle(img, (x1, y1), (x2, y2), (0, Green, Red), 2)
+        cv2.rectangle(img, (x1, y2 - 35), (x2, y2),
+                        (0, Green, Red), cv2.FILLED)
+        cv2.putText(img, name_a, (x1 + 6, y2 - 6),
+                    cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 2)
 
     cv2.imshow("WebCam", img)
     cv2.waitKey(1)

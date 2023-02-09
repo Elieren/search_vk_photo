@@ -29,8 +29,8 @@ if serv == 'all':
         name = []
         l = 0
         for img in images:
-            img_e = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
             try:
+                img_e = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
                 facesCurFrame = face_recognition.face_locations(img_e)
                 encode = face_recognition.face_encodings(img_e, facesCurFrame)[0]
                 encodeList.append(encode)
