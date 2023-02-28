@@ -7,6 +7,7 @@ import os
 import sys
 from PIL import ImageTk, Image
 from io import BytesIO
+import threading
 
 ip_server = ''
 
@@ -61,6 +62,10 @@ def openfilename():
     var.set(data_id)
     client.close()
 
+def downloadThread():
+    t1 = threading.Thread(target=openfilename)
+    t1.start() 
+
 
 def error():
     stat.set('Server disconnect 🟥')
@@ -106,7 +111,7 @@ try:
 
     # Use CTkButton instead of tkinter Button
     button = customtkinter.CTkButton(
-        master=app, text="Upload", command=openfilename, font=("Arial Bold", 25))
+        master=app, text="Upload", command=downloadThread, font=("Arial Bold", 25))
     button.place(relx=0.5, rely=0.8, anchor=tkinter.CENTER)
 
 except:
