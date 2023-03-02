@@ -9,7 +9,7 @@ from PIL import ImageTk, Image
 from io import BytesIO
 import threading
 
-ip_server = ''
+ip_server = '192.168.1.58'
 
 # Modes: system (default), light, dark
 customtkinter.set_appearance_mode("System")
@@ -38,6 +38,8 @@ panel.place(relx=0.5, rely=0.16, anchor=tkinter.CENTER)
 
 def openfilename():
     global data_id
+    global button
+    button.configure(state="disabled")
 
     # open file dialog box to select image
     # The dialogue box has a title "Open"
@@ -61,6 +63,7 @@ def openfilename():
         error()
     var.set(data_id)
     client.close()
+    button.configure(state="normal")
 
 def downloadThread():
     t1 = threading.Thread(target=openfilename)
@@ -78,8 +81,8 @@ def error():
         lbl5 = customtkinter.CTkLabel(
             app, text='Version 1.0', font=("Arial Bold", 20))
         lbl5.place(relx=0.99, rely=0.96, anchor=tkinter.SE)
-    button = customtkinter.CTkButton(master=app, text="Restart", command=res, font=("Arial Bold", 25))
-    button.place(relx=0.5, rely=0.7, anchor=tkinter.CENTER)
+    button2 = customtkinter.CTkButton(master=app, text="Restart", command=res, font=("Arial Bold", 25))
+    button2.place(relx=0.5, rely=0.7, anchor=tkinter.CENTER)
     button1 = customtkinter.CTkButton(master=app, text="Exit", command=ex, font=("Arial Bold", 25))
     button1.place(relx=0.5, rely=0.8, anchor=tkinter.CENTER)
     app.mainloop()
