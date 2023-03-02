@@ -9,7 +9,7 @@ from PIL import ImageTk, Image
 from io import BytesIO
 import threading
 
-ip_server = '192.168.1.58'
+ip_server = ''
 
 # Modes: system (default), light, dark
 customtkinter.set_appearance_mode("System")
