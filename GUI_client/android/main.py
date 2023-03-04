@@ -3,6 +3,8 @@ from kivy.lang import Builder
 from plyer import filechooser
 from kivy.uix.label import Label
 import socket
+import threading
+from kivy.clock import mainthread, Clock
 
 server = ''
 
@@ -11,6 +13,7 @@ MDFloatLayout:
     FitImage:
         source: 'background.png'
     MDRaisedButton:
+        id: button_up
         text: "Upload"
         pos_hint: {"center_x": .5, "center_y": .3}
         on_release:
@@ -27,7 +30,7 @@ MDFloatLayout:
         size_hint: 1, 1
     MDLabel:
         id: version
-        text: "version 1.0"
+        text: "version 1.2"
         pos_hint: {"right": 1.88 , "center_y": .02 }
         theme_text_color: "Custom"
         text_color: 1, 1, 1, 1
@@ -58,13 +61,15 @@ class FileChooser(MDApp):
         return root
 
     def file_chooser(self):
-        filechooser.open_file(on_selection=self.selected)
+        filechooser.open_file(on_selection=self.downloadThread)
     
     def selected(self, selection):
+        self.button_off()
+        self.root.ids.selected_path.text = ''
         try:
             client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             client.connect((server, 9090))
-            file = open(f'{selection[0]}', mode='rb')
+            file = open(f'{selection}', mode='rb')
             data = file.read(1024)
             while data:
                 client.send(data)
@@ -89,6 +94,19 @@ class FileChooser(MDApp):
             data_id = ''
             self.root.ids.server_stat.text = 'Server disconnect'
         self.root.ids.selected_path.text = (data_id)
+        self.button_on()
+    
+    def downloadThread(self, selection):
+        t1 = threading.Thread(target=self.selected, args = selection)
+        t1.start() 
+    
+    @mainthread
+    def button_off(self):
+        self.root.ids.button_up.disabled = True
+    
+    @mainthread
+    def button_on(self):
+        self.root.ids.button_up.disabled = False
 
 if __name__ == '__main__':
     FileChooser().run()
