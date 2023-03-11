@@ -48,14 +48,18 @@ def openfilename():
         client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         client.connect((ip_server, 9090))
         filename = filedialog.askopenfilename(title='"pen')
-        file = open(f'{filename}', mode='rb')
-        data = file.read(1024)
+        file = Image.open(filename)
+        file.thumbnail(size=(1200,800))
+        buf = BytesIO()
+        file.save(buf, format='JPEG')
+        file = buf.getvalue()
+        new_file = BytesIO(file)
+        data = new_file.read(1024)
         while data:
             client.send(data)
-            data = file.read(1024)
+            data = new_file.read(1024)
             if not data:
                 client.send('end'.encode())
-        file.close()
 
         message = client.recv(1024)
         data_id = message.decode('utf-8')
