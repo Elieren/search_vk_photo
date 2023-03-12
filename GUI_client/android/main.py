@@ -5,6 +5,8 @@ from kivy.uix.label import Label
 import socket
 import threading
 from kivy.clock import mainthread, Clock
+import cv2
+import io
 
 server = ''
 
@@ -30,7 +32,7 @@ MDFloatLayout:
         size_hint: 1, 1
     MDLabel:
         id: version
-        text: "version 1.2"
+        text: "version 1.3"
         pos_hint: {"right": 1.88 , "center_y": .02 }
         theme_text_color: "Custom"
         text_color: 1, 1, 1, 1
@@ -69,14 +71,33 @@ class FileChooser(MDApp):
         try:
             client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             client.connect((server, 9090))
-            file = open(f'{selection}', mode='rb')
-            data = file.read(1024)
+            #----------------------------#
+            image = cv2.imread(selection)
+            scale_percent = 99
+            k = [1200, 1200]
+            width = int(image.shape[1] * scale_percent / 100)
+            height = int(image.shape[0] * scale_percent / 100)
+
+            while True:
+                if (k[0] < width) or (k[1] < height):
+                    scale_percent -= 1
+                    width = int(image.shape[1] * scale_percent / 100)
+                    height = int(image.shape[0] * scale_percent / 100)
+                else:
+                    break
+            
+            dim =(width, height)
+
+            resized = cv2.resize(image, dim, interpolation=cv2.INTER_AREA)
+            image_bytes = cv2.imencode('.jpeg', resized)[1].tobytes()
+            #----------------------------#
+            new_file = io.BytesIO(image_bytes)
+            data = new_file.read(1024)
             while data:
                 client.send(data)
-                data = file.read(1024)
+                data = new_file.read(1024)
                 if not data:
                     client.send('end'.encode())
-            file.close()
 
             message = client.recv(1024)
             data_id = message.decode('utf-8')

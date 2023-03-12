@@ -49,7 +49,7 @@ def openfilename():
         client.connect((ip_server, 9090))
         filename = filedialog.askopenfilename(title='"pen')
         file = Image.open(filename)
-        file.thumbnail(size=(1200,800))
+        file.thumbnail(size=(1200,1200))
         buf = BytesIO()
         file.save(buf, format='JPEG')
         file = buf.getvalue()
