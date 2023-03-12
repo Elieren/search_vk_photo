@@ -2,6 +2,7 @@ from search import *
 import socket
 import os
 import sys
+import ssl
 
 banner = '''
 ███████╗███████╗██████╗ ██╗   ██╗███████╗██████╗ 
@@ -13,7 +14,7 @@ banner = '''
 '''
 print(banner)
 
-server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server = ssl.wrap_socket(socket.socket(socket.AF_INET, socket.SOCK_STREAM), 'server.key', 'server.crt', True)
 server.bind(('', 9090))
 server.listen()
 print("Server start.")

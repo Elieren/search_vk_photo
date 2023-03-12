@@ -37,3 +37,19 @@ To turn it on. Add text as written below.
 ```
 face_recognition.face_locations(np.array(im)) => face_recognition.face_locations(np.array(im), model='cnn')
 ```
+
+## The program uses ssl encryption.
+For the server to work, you need to generate an ssl certificate.
+
+```
+openssl genrsa -des3 -out server.key 1024
+
+openssl req -new -key server.key -out server.csr
+
+cp server.key server.key.org
+
+openssl rsa -in server.key.org -out server.key
+
+openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
+```
+Certificates 'server.key' and 'server.crt' must be placed in the same folder as server.py

@@ -8,6 +8,7 @@ import sys
 from PIL import ImageTk, Image
 from io import BytesIO
 import threading
+import ssl
 
 ip_server = ''
 
@@ -45,7 +46,7 @@ def openfilename():
     # The dialogue box has a title "Open"
 
     try:
-        client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        client = ssl.wrap_socket(socket.socket(socket.AF_INET, socket.SOCK_STREAM))
         client.connect((ip_server, 9090))
         filename = filedialog.askopenfilename(title='"pen')
         file = Image.open(filename)
@@ -101,7 +102,7 @@ def ex():
 
 
 try:
-    client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    client = ssl.wrap_socket(socket.socket(socket.AF_INET, socket.SOCK_STREAM))
     client.connect((ip_server, 9090))
     client.close()
 

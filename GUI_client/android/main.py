@@ -7,6 +7,7 @@ import threading
 from kivy.clock import mainthread, Clock
 import cv2
 import io
+import ssl
 
 server = ''
 
@@ -53,7 +54,7 @@ class FileChooser(MDApp):
         request_permissions([Permission.READ_EXTERNAL_STORAGE])
         root = Builder.load_string(kv)
         try:
-            client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            client = ssl.wrap_socket(socket.socket(socket.AF_INET, socket.SOCK_STREAM))
             client.connect((server, 9090))
             root.ids.server_stat.text = 'Server connect'
         except:
@@ -69,7 +70,7 @@ class FileChooser(MDApp):
         self.button_off()
         self.root.ids.selected_path.text = ''
         try:
-            client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            client = ssl.wrap_socket(socket.socket(socket.AF_INET, socket.SOCK_STREAM))
             client.connect((server, 9090))
             #----------------------------#
             image = cv2.imread(selection)
