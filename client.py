@@ -1,7 +1,7 @@
 import socket
 import ssl
 
-client = ssl.wrap_socket(socket.socket(socket.AF_INET, socket.SOCK_STREAM))
+client = ssl.wrap_socket(socket.socket(socket.AF_INET, socket.SOCK_STREAM), ciphers="ADH-AES256-SHA")
 client.connect(('', 9090))
 
 file = open(f'{input("Path to photo: ")}', mode='rb')
