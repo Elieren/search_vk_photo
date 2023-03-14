@@ -54,11 +54,12 @@ class FileChooser(MDApp):
         request_permissions([Permission.READ_EXTERNAL_STORAGE])
         root = Builder.load_string(kv)
         try:
-            client = ssl.wrap_socket(socket.socket(socket.AF_INET, socket.SOCK_STREAM), ciphers="ADH-AES256-SHA")
+            client = ssl.wrap_socket(socket.socket(socket.AF_INET, socket.SOCK_STREAM), keyfile='server.key', certfile='server.crt', server_side=False)
             client.connect((server, 9090))
             root.ids.server_stat.text = 'Server connect'
         except:
             root.ids.server_stat.text = 'Server disconnect'
+
         
         self.theme_cls.primary_palette = "Green"
         return root
@@ -67,11 +68,14 @@ class FileChooser(MDApp):
         filechooser.open_file(on_selection=self.downloadThread)
     
     def selected(self, selection):
+        key = self.directory + '/server.key'
+        crt = self.directory + '/server.crt'
         self.button_off()
         self.root.ids.selected_path.text = ''
         try:
-            client = ssl.wrap_socket(socket.socket(socket.AF_INET, socket.SOCK_STREAM), ciphers="ADH-AES256-SHA")
-            client.connect((server, 9090))
+            client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            long = ssl.wrap_socket(client, keyfile=key, certfile=crt, server_side=False)
+            long.connect((server, 9090))
             #----------------------------#
             image = cv2.imread(selection)
             scale_percent = 99
@@ -95,12 +99,12 @@ class FileChooser(MDApp):
             new_file = io.BytesIO(image_bytes)
             data = new_file.read(1024)
             while data:
-                client.send(data)
+                long.send(data)
                 data = new_file.read(1024)
                 if not data:
-                    client.send('end'.encode())
+                    long.send('end'.encode())
 
-            message = client.recv(1024)
+            message = long.recv(1024)
             data_id = message.decode('utf-8')
             data_id1 = data_id.split('\n')
             data_id = []

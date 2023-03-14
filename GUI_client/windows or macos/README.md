@@ -9,6 +9,8 @@ ip_server = ''
 ```
 In '' insert the ip address of the server.
 
+__You must use the keys that are used for server.__
+
 ## Start
 ```
 python3 client_gui.py
@@ -31,6 +33,10 @@ auto-py-to-exe
 4 = C:/Users/UserName/AppData/Local/Programs/Python/Python39/Lib/site-packages/customtkinter-5.0.3.dist-info
 
 5 = C:/Users/UserName/AppData/Local/Programs/Python/Python39/Lib/site-packages/PIL
+
+6 = server.key
+
+7 = server.crt
 
 ![](/example/1.png)
 

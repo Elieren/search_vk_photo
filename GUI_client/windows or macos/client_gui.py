@@ -46,7 +46,7 @@ def openfilename():
     # The dialogue box has a title "Open"
 
     try:
-        client = ssl.wrap_socket(socket.socket(socket.AF_INET, socket.SOCK_STREAM), ciphers="ADH-AES256-SHA")
+        client = ssl.wrap_socket(socket.socket(socket.AF_INET, socket.SOCK_STREAM), keyfile='server.key', certfile='server.crt')
         client.connect((ip_server, 9090))
         filename = filedialog.askopenfilename(title='"pen')
         file = Image.open(filename)
@@ -102,7 +102,7 @@ def ex():
 
 
 try:
-    client = ssl.wrap_socket(socket.socket(socket.AF_INET, socket.SOCK_STREAM), ciphers="ADH-AES256-SHA")
+    client = ssl.wrap_socket(socket.socket(socket.AF_INET, socket.SOCK_STREAM), keyfile='server.key', certfile='server.crt')
     client.connect((ip_server, 9090))
     client.close()
 
