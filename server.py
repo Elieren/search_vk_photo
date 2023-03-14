@@ -14,7 +14,7 @@ banner = '''
 '''
 print(banner)
 
-server = ssl.wrap_socket(socket.socket(socket.AF_INET, socket.SOCK_STREAM), 'server.key', 'server.crt', True, ciphers="ADH-AES256-SHA")
+server = ssl.wrap_socket(socket.socket(socket.AF_INET, socket.SOCK_STREAM), keyfile='server.key', certfile='server.crt', server_side=True)
 server.bind(('', 9090))
 server.listen()
 print("Server start.")

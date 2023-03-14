@@ -48,7 +48,7 @@ def openfilename():
     try:
         client = ssl.wrap_socket(socket.socket(socket.AF_INET, socket.SOCK_STREAM), keyfile='server.key', certfile='server.crt')
         client.connect((ip_server, 9090))
-        filename = filedialog.askopenfilename(title='"pen')
+        filename = filedialog.askopenfilename(title='photo')
         file = Image.open(filename)
         file.thumbnail(size=(1200,1200))
         buf = BytesIO()

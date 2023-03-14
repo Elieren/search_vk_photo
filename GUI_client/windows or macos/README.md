@@ -9,7 +9,7 @@ ip_server = ''
 ```
 In '' insert the ip address of the server.
 
-__You must use the keys that are used for server.__
+__You must use the keys (.key, .crt) that are used for server.__
 
 ## Start
 ```

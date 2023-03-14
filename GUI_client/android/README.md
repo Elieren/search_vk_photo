@@ -17,7 +17,7 @@ Buildozer.ipynd is a file for google colab containing commands to install buildo
 
 You need to move the entire android folder to the virtual machine.
 
-__You must use the keys that are used for server.__
+__You must use the keys (.key, .crt) that are used for server.__
 
 ```
 android \

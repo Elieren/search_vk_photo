@@ -22,7 +22,7 @@ Save and exit
 python3 server.py
 ```
 ### Start client
-__You must use the keys that are used for server.__
+__You must use the keys (.key, .crt) that are used for server.__
 ```
 python3 client.py
 ```
