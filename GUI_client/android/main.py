@@ -33,7 +33,7 @@ MDFloatLayout:
         size_hint: 1, 1
     MDLabel:
         id: version
-        text: "version 1.3"
+        text: "Version 1.4"
         pos_hint: {"right": 1.88 , "center_y": .02 }
         theme_text_color: "Custom"
         text_color: 1, 1, 1, 1

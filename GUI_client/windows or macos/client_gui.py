@@ -84,7 +84,7 @@ def error():
             app, textvariable=stat, font=("Arial Bold", 20))
         lbl3.place(relx=0.09, rely=0.96, anchor=tkinter.CENTER)
         lbl5 = customtkinter.CTkLabel(
-            app, text='Version 1.0', font=("Arial Bold", 20))
+            app, text='Version 1.4', font=("Arial Bold", 20))
         lbl5.place(relx=0.99, rely=0.96, anchor=tkinter.SE)
     button2 = customtkinter.CTkButton(master=app, text="Restart", command=res, font=("Arial Bold", 25))
     button2.place(relx=0.5, rely=0.7, anchor=tkinter.CENTER)
@@ -110,7 +110,7 @@ try:
         app, textvariable=stat, font=("Arial Bold", 20))
     lbl1.place(relx=0.08, rely=0.96, anchor=tkinter.CENTER)
     lbl5 = customtkinter.CTkLabel(
-        app, text='Version 1.0', font=("Arial Bold", 20))
+        app, text='Version 1.4', font=("Arial Bold", 20))
     lbl5.place(relx=0.95, rely=0.96, anchor=tkinter.CENTER)
 
     lbl2 = customtkinter.CTkLabel(
