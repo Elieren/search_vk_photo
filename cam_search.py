@@ -16,15 +16,17 @@ with open('dataset_faces.dat', 'rb') as file:
 with open('dataset_name.dat', 'rb') as file:
 	name = pickle.load(file)
 
-connect = sqlite3.connect('base.db')
+connect = sqlite3.connect('base.db') #Connecting to an existing database
 cursor = connect.cursor()
 
 def search(id_vk):
-	cursor.execute(f"""SELECT * FROM users WHERE id_vk = '{id_vk}';""")
-	us = cursor.fetchone()
-	return us
+    """Search for user information by id"""
+    cursor.execute(f"""SELECT * FROM users WHERE id_vk = '{id_vk}';""")
+    us = cursor.fetchone()
+    return us
 
 def nick(name_a):
+    """Logging in and out of users"""
     global namd
     for x in name_a:
         if x not in namd:
@@ -43,19 +45,21 @@ def nick(name_a):
 print(name)
 print("I'm listening")
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(0) #Getting video from the camera
 
 while True:
     success, img = cap.read()
     imgS = cv2.resize(img, (0, 0), None, 0.25, 0.25)
     imgS = cv2.cvtColor(imgS, cv2.COLOR_BGR2RGB)
 
+    #Find faces in a photo
     facesCurFrame = face_recognition.face_locations(imgS)
     encodeCurFrame = face_recognition.face_encodings(imgS, facesCurFrame)
     nick(mam)
     mam = []
 
     for encodeFace, faceLoc in zip(encodeCurFrame, facesCurFrame):
+        #Comparison of a face with a list of faces
         matches = face_recognition.compare_faces(encodeListKnown, encodeFace)
         faceDis = face_recognition.face_distance(encodeListKnown, encodeFace)
         matchIndex = np.argmin(faceDis)
@@ -71,6 +75,7 @@ while True:
             Green = 0
             Red = 255
 
+        #Draw a frame around the face
         y1, x2, y2, x1 = faceLoc
         y1, x2, y2, x1 = y1 * 4, x2 * 4, y2 * 4, x1 * 4
         cv2.rectangle(img, (x1, y1), (x2, y2), (0, Green, Red), 2)
