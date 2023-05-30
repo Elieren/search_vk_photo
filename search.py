@@ -14,15 +14,17 @@ with open('dataset_faces.dat', 'rb') as file:
 with open('dataset_name.dat', 'rb') as file:
 	name = pickle.load(file)
 
-connect = sqlite3.connect('base.db')
+connect = sqlite3.connect('base.db') #Connecting to an existing database
 cursor = connect.cursor()
 
 def search_a(id_vk):
-	cursor.execute(f"""SELECT * FROM users WHERE id_vk = '{id_vk}';""")
-	us = cursor.fetchone()
-	return us
+    """Search for user information by id"""
+    cursor.execute(f"""SELECT * FROM users WHERE id_vk = '{id_vk}';""")
+    us = cursor.fetchone()
+    return us
 
 def search(x):
+    """Getting data about a person"""
     fases = []
     id_vk = []
     name_a = []
