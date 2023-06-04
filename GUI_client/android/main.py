@@ -77,7 +77,6 @@ class FileChooser(MDApp):
         try:
             client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             long = ssl.wrap_socket(client, keyfile=key, certfile=crt, server_side=False) #Initialize the SSL protocol
-            client.connect((server, 9090))
             long.connect((server, 9090))
             #----------------------------#
             #Reducing the photo to 1200 pixels (without distorting the image)
