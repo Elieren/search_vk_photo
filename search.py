@@ -7,6 +7,7 @@ import cv2
 import PIL.Image
 from io import BytesIO
 import numpy as np
+import json
 
 with open('dataset_faces.dat', 'rb') as file:
 	encodeListKnown = pickle.load(file)
@@ -14,7 +15,7 @@ with open('dataset_faces.dat', 'rb') as file:
 with open('dataset_name.dat', 'rb') as file:
 	name = pickle.load(file)
 
-connect = sqlite3.connect('base.db')
+connect = sqlite3.connect('base.db', check_same_thread=False)
 cursor = connect.cursor()
 
 def search_a(id_vk):
@@ -27,7 +28,7 @@ def search(x):
     id_vk = []
     name_a = []
 
-    im = PIL.Image.open(BytesIO(x))
+    im = PIL.Image.open(x)
     facesCurFrame = face_recognition.face_locations(np.array(im))
     face_encoding_1 = face_recognition.face_encodings(np.array(im), facesCurFrame)
     if face_encoding_1 != []:
@@ -52,9 +53,12 @@ def search(x):
         if id_vk != []:
             for x in id_vk:
                 us = search_a(x)
-                name_a.append(f'🟢 id: {x}, Name: {us[1]}, Bdate: {us[2]}, City: {us[3]}, Country: {us[4]}')
+                user = {'status': '🟢', 'id': x, 'Name': us[1], 'Bdate': us[2], 'City': us[3], 'Country': us[4]}
+                name_a.append(json.dumps(user))
         else:
-            name_a.append('🟡 Not Found')
+            user = {'status': '🟡', 'text': 'Not Found'}
+            name_a.append(json.dumps(user))
     else:
-        name_a.append('🔴 Face not found')
+        user = {'status': '🔴', 'text': 'Face not found'}
+        name_a.append(json.dumps(user))
     return name_a

@@ -1,31 +1,18 @@
-from search import *
-import socket
-import os
-import sys
-import ssl
+from flask import Flask, request
+import json
+import io
+from search import search
 
-context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
-context.load_cert_chain(certfile='server.crt', keyfile='server.key')
-server = context.wrap_socket(socket.socket(socket.AF_INET, socket.SOCK_STREAM), server_side=True)
-server.bind(('0.0.0.0', 9090))
-server.listen()
+app = Flask(__name__)
 
-while True:
-    try:
-        data_px = b''
-        client, address = server.accept()
+@app.route('/api', methods=['POST'])
+def content():
+    file = request.files['image']
+    byte_stream = io.BytesIO()
+    byte_stream.write(file.read())
 
-        data = client.recv(1024)
-        while data:
-            data_px = data_px + data
-            data = client.recv(1024)
-            if data[-3:] == b'end':
-                break
+    data = search(byte_stream)
+    return data
 
-        name = search(data_px)
-        print(name)
-        name = '\n'.join(name)
-        name = name.encode('utf-8')
-        client.send(name)
-    except:
-        pass
+if __name__ == '__main__':
+    app.run()
