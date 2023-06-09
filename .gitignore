@@ -1,3 +1,4 @@
 base.db
 dataset_faces.dat
 dataset_name.dat
+__pycache__

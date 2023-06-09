@@ -53,7 +53,7 @@ def search(x):
         if id_vk != []:
             for x in id_vk:
                 us = search_a(x)
-                user = {'status': '🟢', 'id': x, 'Name': us[1], 'Bdate': us[2], 'City': us[3], 'Country': us[4]}
+                user = {'status': '🟢', 'id': x, 'name': us[1], 'bdate': us[2], 'city': us[3], 'country': us[4]}
                 name_a.append(json.dumps(user))
         else:
             user = {'status': '🟡', 'text': 'Not Found'}

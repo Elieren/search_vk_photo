@@ -2,6 +2,8 @@ import requests
 import os
 import json
 
+ip_server = '' #Flask server
+
 path = str(input("Path to photo: "))
 path_a = os.path.split(path)[-1]
 format_file = path_a.split('.')[-1]
@@ -12,7 +14,7 @@ with open(path, "rb") as image_file:
     files = {'image': (path_a, image_file, f'image/{format_file}')}
 
     # передаем данные формы в запрос
-    response = requests.post("http://127.0.0.1:5000/api", files=files)
+    response = requests.post(ip_server, files=files)
 
 # получаем ответ от сервера
 a = response.json()

@@ -14,5 +14,9 @@ def content():
     data = search(byte_stream)
     return data
 
+@app.route('/')
+def status():
+    return '1'
+
 if __name__ == '__main__':
     app.run()
