@@ -14,7 +14,7 @@ with open(path, "rb") as image_file:
     files = {'image': (path_a, image_file, f'image/{format_file}')}
 
     # передаем данные формы в запрос
-    response = requests.post(ip_server, files=files)
+    response = requests.post(f'{ip_server}/api', files=files)
 
 # получаем ответ от сервера
 a = response.json()

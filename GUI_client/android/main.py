@@ -54,7 +54,7 @@ class FileChooser(MDApp):
         request_permissions([Permission.READ_EXTERNAL_STORAGE])
         root = Builder.load_string(kv)
         try:
-            response = requests.post(ip_server)
+            response = requests.post(f'{ip_server}/')
             root.ids.server_stat.text = 'Server connect'
         except:
             root.ids.server_stat.text = 'Server disconnect'
@@ -92,7 +92,7 @@ class FileChooser(MDApp):
             #----------------------------#
             new_file = io.BytesIO(image_bytes)
             files = {'image': ('1.jpg', new_file, f'image/jpeg')}
-            response = requests.post(ip_server, files=files)
+            response = requests.post(f'{ip_server}/api', files=files)
             
             d = []
             a = response.json()
