@@ -38,6 +38,6 @@ auto-py-to-exe
 
 7 = server.crt
 
-![](/example/1.png)
+![](https://raw.githubusercontent.com/Elieren/search_vk_photo/server/example/1.png)
 
 Everything
