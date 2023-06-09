@@ -1,6 +1,6 @@
 FROM python
 
-COPY . /search_face
+COPY base.db dataset_faces.dat dataset_name.dat Dockerfile README.md requirements.py search.py server.crt server.key server.py /search_face
 WORKDIR /search_face
 
 RUN apt-get update && \
