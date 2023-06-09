@@ -9,7 +9,7 @@ import cv2
 import io
 import ssl
 
-server = ''
+server = '' #Server address
 
 kv = """
 MDFloatLayout:
@@ -54,7 +54,7 @@ class FileChooser(MDApp):
         request_permissions([Permission.READ_EXTERNAL_STORAGE])
         root = Builder.load_string(kv)
         try:
-            client = ssl.wrap_socket(socket.socket(socket.AF_INET, socket.SOCK_STREAM), keyfile='server.key', certfile='server.crt', server_side=False)
+            client = ssl.wrap_socket(socket.socket(socket.AF_INET, socket.SOCK_STREAM), keyfile='server.key', certfile='server.crt', server_side=False) #Initialize the SSL protocol
             client.connect((server, 9090))
             root.ids.server_stat.text = 'Server connect'
         except:
@@ -65,18 +65,21 @@ class FileChooser(MDApp):
         return root
 
     def file_chooser(self):
+        """Opening File Explorer"""
         filechooser.open_file(on_selection=self.downloadThread)
     
     def selected(self, selection):
+        """Processing and sending photo code bytes"""
         key = self.directory + '/server.key'
         crt = self.directory + '/server.crt'
         self.button_off()
         self.root.ids.selected_path.text = ''
         try:
             client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            long = ssl.wrap_socket(client, keyfile=key, certfile=crt, server_side=False)
+            long = ssl.wrap_socket(client, keyfile=key, certfile=crt, server_side=False) #Initialize the SSL protocol
             long.connect((server, 9090))
             #----------------------------#
+            #Reducing the photo to 1200 pixels (without distorting the image)
             image = cv2.imread(selection)
             scale_percent = 99
             k = [1200, 1200]
@@ -96,6 +99,7 @@ class FileChooser(MDApp):
             resized = cv2.resize(image, dim, interpolation=cv2.INTER_AREA)
             image_bytes = cv2.imencode('.jpeg', resized)[1].tobytes()
             #----------------------------#
+            #Sending an image
             new_file = io.BytesIO(image_bytes)
             data = new_file.read(1024)
             while data:
@@ -103,7 +107,8 @@ class FileChooser(MDApp):
                 data = new_file.read(1024)
                 if not data:
                     long.send('end'.encode())
-
+            
+            #Getting data
             message = long.recv(1024)
             data_id = message.decode('utf-8')
             data_id1 = data_id.split('\n')
@@ -123,15 +128,18 @@ class FileChooser(MDApp):
         self.button_on()
     
     def downloadThread(self, selection):
+        """Initializable multithreading"""
         t1 = threading.Thread(target=self.selected, args = selection)
         t1.start() 
     
     @mainthread
     def button_off(self):
+        """Disable submit button"""
         self.root.ids.button_up.disabled = True
     
     @mainthread
     def button_on(self):
+        """Enable submit button"""
         self.root.ids.button_up.disabled = False
 
 if __name__ == '__main__':

@@ -10,7 +10,7 @@ from io import BytesIO
 import threading
 import ssl
 
-ip_server = ''
+ip_server = '' #Server address
 
 # Modes: system (default), light, dark
 customtkinter.set_appearance_mode("System")
@@ -38,44 +38,50 @@ panel.place(relx=0.5, rely=0.16, anchor=tkinter.CENTER)
 
 
 def openfilename():
+    """Processing, sending and receiving data"""
     global data_id
     global button
-    button.configure(state="disabled")
+    button.configure(state="disabled") #Disable submit button
 
     # open file dialog box to select image
     # The dialogue box has a title "Open"
 
     try:
-        client = ssl.wrap_socket(socket.socket(socket.AF_INET, socket.SOCK_STREAM), keyfile='server.key', certfile='server.crt')
+        client = ssl.wrap_socket(socket.socket(socket.AF_INET, socket.SOCK_STREAM), keyfile='server.key', certfile='server.crt') #Initialize the SSL protocol
         client.connect((ip_server, 9090))
-        filename = filedialog.askopenfilename(title='photo')
+        filename = filedialog.askopenfilename(title='photo') #Opening File Explorer
         file = Image.open(filename)
+        #Reducing the photo to 1200 pixels (without distorting the image)
         file.thumbnail(size=(1200,1200))
         buf = BytesIO()
         file.save(buf, format='JPEG')
         file = buf.getvalue()
         new_file = BytesIO(file)
+        #Sending an image
         data = new_file.read(1024)
         while data:
             client.send(data)
             data = new_file.read(1024)
             if not data:
                 client.send('end'.encode())
-
+        
+        #Getting data
         message = client.recv(1024)
         data_id = message.decode('utf-8')
     except:
         error()
     var.set(data_id)
     client.close()
-    button.configure(state="normal")
+    button.configure(state="normal") #Enable submit button
 
 def downloadThread():
+    """Initializable multithreading"""
     t1 = threading.Thread(target=openfilename)
     t1.start() 
 
 
 def error():
+    """Action on error"""
     stat.set('Server disconnect 🟥')
     data_id = ''
     var.set('')
@@ -94,15 +100,17 @@ def error():
 
 
 def res():
+    """Restarting the program"""
     os.execv(sys.executable, ['python'] + sys.argv)
 
 
 def ex():
+    """Close the program"""
     sys.exit()
 
 
 try:
-    client = ssl.wrap_socket(socket.socket(socket.AF_INET, socket.SOCK_STREAM), keyfile='server.key', certfile='server.crt')
+    client = ssl.wrap_socket(socket.socket(socket.AF_INET, socket.SOCK_STREAM), keyfile='server.key', certfile='server.crt') #Initialize the SSL protocol
     client.connect((ip_server, 9090))
     client.close()
 
