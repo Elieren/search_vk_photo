@@ -5,7 +5,7 @@ import lxml
 import requests
 import re
 
-connect = sqlite3.connect('base.db')
+connect = sqlite3.connect('base.db') #Database creation
 cursor = connect.cursor()
 
 access_token = '' #Vk_token
@@ -21,6 +21,7 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS users(
 """)
 
 def nick_name(k):
+   """Getting a first and last name"""
    try:
       name = k['first_name']+' '+k['last_name']
    except:
@@ -28,6 +29,7 @@ def nick_name(k):
    return name
 
 def day_b(k):
+   """Getting date of birth"""
    try:
       bdate = k['bdate']
    except:
@@ -35,6 +37,7 @@ def day_b(k):
    return bdate
 
 def strana(k):
+   """Getting city and country"""
    try:
     city = k['city']['title']
    except:
@@ -48,6 +51,7 @@ def strana(k):
    return city, country
 
 def img(url_adress, access_token, api_version):
+   """Getting photos"""
    try:
       links = []
       e = requests.get(f'https://api.vk.com/method/photos.getAll?owner_id={url_adress}&access_token={access_token}&v={api_version}').text
@@ -63,8 +67,9 @@ def img(url_adress, access_token, api_version):
    return url_img, a
 
 def add(url_adress, nick, b, city, country, link_image, cursor):
-	cursor.execute("INSERT INTO users VALUES(?, ?, ?, ?, ?, ?)",(url_adress, nick, b, city, country, link_image))
-	connect.commit()
+   """Adding received data to the database"""
+   cursor.execute("INSERT INTO users VALUES(?, ?, ?, ?, ?, ?)",(url_adress, nick, b, city, country, link_image))
+   connect.commit()
 
 for x in range(1 ,100000000):
    url_adress = ("".join("%09d" % x ))

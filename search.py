@@ -14,23 +14,25 @@ fases = []
 id_vk = []
 a = 0
 
-connect = sqlite3.connect('base.db')
+connect = sqlite3.connect('base.db') #Connecting to an existing database
 cursor = connect.cursor()
 
 
 def search(id_vk):
-	cursor.execute(f"""SELECT * FROM users WHERE id_vk = '{id_vk}';""")
-	us = cursor.fetchone()
-	return us
+    """Search for user information by id"""
+    cursor.execute(f"""SELECT * FROM users WHERE id_vk = '{id_vk}';""")
+    us = cursor.fetchone()
+    return us
 
 
-direct = str(input("Path to photo: "))
+direct = str(input("Path to photo: ")) #Path to photo
 known_image = face_recognition.load_image_file(direct)
 facesCurFrame = face_recognition.face_locations(known_image)
 face_encoding = face_recognition.face_encodings(known_image, facesCurFrame)[0]
 
 
 while True:
+    #Finds a face match
     try:
         encoding = encodeListKnown[a]
         results = face_recognition.compare_faces([face_encoding], encoding)
@@ -48,6 +50,7 @@ while True:
         break
 
 if id_vk != []:
+    #If the list is not empty, display the data of the matched users
     for x in id_vk:
         us = search(x)
         print(
