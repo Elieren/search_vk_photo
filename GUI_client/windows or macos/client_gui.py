@@ -55,7 +55,7 @@ def openfilename():
         file = buf.getvalue()
         new_file = BytesIO(file)
         files = {'image': ('1.jpg', new_file, f'image/jpeg')}
-        response = requests.post(f'{ip_server}/api', files=files)
+        response = requests.post(f'{ip_server}/api', files=files, verify=False, cert=('server.crt','server.key'))
 
         a = response.json()
         for i in a:
@@ -111,7 +111,7 @@ def ex():
 
 
 try:
-    response = requests.post(f'{ip_server}/')
+    response = requests.get(f'{ip_server}/', verify=False, cert=('server.crt','server.key'))
 
     lbl1 = customtkinter.CTkLabel(
         app, textvariable=stat, font=("Arial Bold", 20))

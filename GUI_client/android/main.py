@@ -54,7 +54,7 @@ class FileChooser(MDApp):
         request_permissions([Permission.READ_EXTERNAL_STORAGE])
         root = Builder.load_string(kv)
         try:
-            response = requests.post(f'{ip_server}/')
+            response = requests.get(f'{ip_server}/', verify=False, cert=('server.crt','server.key'))
             root.ids.server_stat.text = 'Server connect'
         except:
             root.ids.server_stat.text = 'Server disconnect'
@@ -67,6 +67,8 @@ class FileChooser(MDApp):
         filechooser.open_file(on_selection=self.downloadThread)
     
     def selected(self, selection):
+        key = self.directory + '/server.key'
+        crt = self.directory + '/server.crt'
         self.button_off()
         self.root.ids.selected_path.text = ''
         try:
@@ -92,7 +94,8 @@ class FileChooser(MDApp):
             #----------------------------#
             new_file = io.BytesIO(image_bytes)
             files = {'image': ('1.jpg', new_file, f'image/jpeg')}
-            response = requests.post(f'{ip_server}/api', files=files)
+
+            response = requests.post(f'{ip_server}/api', files=files, verify=False, cert=(crt, key))
             
             d = []
             a = response.json()

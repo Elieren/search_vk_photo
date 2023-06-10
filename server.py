@@ -16,7 +16,8 @@ def content():
 
 @app.route('/')
 def status():
-    return '1'
+    return 200
 
 if __name__ == '__main__':
-    app.run()
+    context = ('server.crt', 'server.key')
+    app.run(debug=False, ssl_context=context)

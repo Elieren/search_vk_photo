@@ -5,7 +5,7 @@ Android (apk)
 ```
 nano main.py
 
-server = ''
+ip_server = ''
 ```
 In '' insert the ip address of the server.
 
