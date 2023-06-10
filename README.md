@@ -45,3 +45,8 @@ To turn it on. Add text as written below.
 face_recognition.face_locations(known_image) => face_recognition.face_locations(known_image, model='cnn')
 ```
 In all files where face_locations is used.
+
+## Other project implementations
+[![server](https://img.shields.io/badge/Server_(Server_on_socket)-black?style=for-the-badge&logo=GitHub)](https://github.com/Elieren/search_vk_photo/tree/server)
+
+[![server](https://img.shields.io/badge/Server_(Server_on_Flask)-black?style=for-the-badge&logo=GitHub)](https://github.com/Elieren/search_vk_photo/tree/API_server)
