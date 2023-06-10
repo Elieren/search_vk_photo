@@ -13,7 +13,7 @@ Before work, you need to edit the client
 ```
 nano client.py
 ```
-ip_server = '' --> ip_server = 'ip'
+ip_server = '' --> ip_server = 'https://myserver:5000'
 
 Save and exit
 
