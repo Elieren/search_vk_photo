@@ -82,21 +82,21 @@ class FileChooser(MDApp):
             #Reducing the photo to 1200 pixels (without distorting the image)
             image = cv2.imread(selection)
             scale_percent = 99
-            k = [1200, 1200]
+            size = [1200, 1200]
             width = int(image.shape[1] * scale_percent / 100)
             height = int(image.shape[0] * scale_percent / 100)
 
             while True:
-                if (k[0] < width) or (k[1] < height):
+                if (size[0] < width) or (size[1] < height):
                     scale_percent -= 1
                     width = int(image.shape[1] * scale_percent / 100)
                     height = int(image.shape[0] * scale_percent / 100)
                 else:
                     break
             
-            dim =(width, height)
+            new_size = (width, height)
 
-            resized = cv2.resize(image, dim, interpolation=cv2.INTER_AREA)
+            resized = cv2.resize(image, new_size, interpolation=cv2.INTER_AREA)
             image_bytes = cv2.imencode('.jpeg', resized)[1].tobytes()
             #----------------------------#
             #Sending an image

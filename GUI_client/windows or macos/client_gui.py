@@ -22,15 +22,15 @@ app.geometry("1280x800")
 app.title('Face_search')
 app.resizable(False, False)
 
-var = StringVar()
-stat = StringVar()
+text_centor = StringVar()
+status_server = StringVar()
 
-lom = 'Upload a photo to get information about a person.'
+greetings = 'Upload a photo to get information about a person.'
 
-stat.set('Server connect 🟢')
-var.set(lom)
+status_server.set('Server connect 🟢')
+text_centor.set(greetings)
 
-a = 0
+trigger_value = 0
 
 img = ImageTk.PhotoImage(Image.open('banner.png'))
 panel = customtkinter.CTkLabel(app, image=img, text='')
@@ -70,7 +70,7 @@ def openfilename():
         data_id = message.decode('utf-8')
     except:
         error()
-    var.set(data_id)
+    text_centor.set(data_id)
     client.close()
     button.configure(state="normal") #Enable submit button
 
@@ -82,12 +82,12 @@ def downloadThread():
 
 def error():
     """Action on error"""
-    stat.set('Server disconnect 🟥')
+    status_server.set('Server disconnect 🟥')
     data_id = ''
-    var.set('')
-    if a == 1:
+    text_centor.set('')
+    if trigger_value == 1:
         lbl3 = customtkinter.CTkLabel(
-            app, textvariable=stat, font=("Arial Bold", 20))
+            app, textvariable=status_server, font=("Arial Bold", 20))
         lbl3.place(relx=0.09, rely=0.96, anchor=tkinter.CENTER)
         lbl5 = customtkinter.CTkLabel(
             app, text='Version 1.4', font=("Arial Bold", 20))
@@ -115,14 +115,14 @@ try:
     client.close()
 
     lbl1 = customtkinter.CTkLabel(
-        app, textvariable=stat, font=("Arial Bold", 20))
+        app, textvariable=status_server, font=("Arial Bold", 20))
     lbl1.place(relx=0.08, rely=0.96, anchor=tkinter.CENTER)
     lbl5 = customtkinter.CTkLabel(
         app, text='Version 1.4', font=("Arial Bold", 20))
     lbl5.place(relx=0.95, rely=0.96, anchor=tkinter.CENTER)
 
     lbl2 = customtkinter.CTkLabel(
-        app, text='Id:', textvariable=var, font=("Arial Bold", 20))
+        app, text='Id:', textvariable=text_centor, font=("Arial Bold", 20))
     lbl2.place(relx=0.5, rely=0.5, anchor=tkinter.CENTER)
 
     # Use CTkButton instead of tkinter Button
@@ -131,7 +131,7 @@ try:
     button.place(relx=0.5, rely=0.8, anchor=tkinter.CENTER)
 
 except:
-    a = 1
+    trigger_value = 1
     error()
 
 app.mainloop()

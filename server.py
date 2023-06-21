@@ -22,20 +22,20 @@ print("Server start.")
 while True:
     try:
         #Getting the bytecode of a photo
-        data_px = b''
+        data_byte_line= b''
         client, address = server.accept()
 
-        data = client.recv(1024)
+        data_byte = client.recv(1024)
         while data:
-            data_px = data_px + data
-            data = client.recv(1024)
-            if data[-3:] == b'end':
+            data_byte_line = data_byte_line + data_byte
+            data_byte = client.recv(1024)
+            if data_byte[-3:] == b'end':
                 break
 
-        name = search(data_px) #Searching data by face
-        print(name)
-        name = '\n'.join(name)
-        name = name.encode('utf-8')
-        client.send(name) #Sending data to client
+        info = search(data_byte_line) #Searching data by face
+        print(info)
+        info = '\n'.join(info)
+        info = info.encode('utf-8')
+        client.send(info) #Sending data to client
     except:
         pass

@@ -5,14 +5,14 @@ client = ssl.wrap_socket(socket.socket(socket.AF_INET, socket.SOCK_STREAM), keyf
 client.connect(('', 9090))
 
 file = open(f'{input("Path to photo: ")}', mode='rb') #Path to file
-data = file.read(1024)
-while data:
+data_byte = file.read(1024)
+while data_byte:
     #Sending photo byte code
-    client.send(data)
-    data = file.read(1024)
-    if not data:
+    client.send(data_byte)
+    data_byte = file.read(1024)
+    if not data_byte:
         client.send('end'.encode())
 
-message = client.recv(1024) #Getting data about a person
+result = client.recv(1024) #Getting data about a person
 print()
-print(message.decode('utf-8'))
+print(result.decode('utf-8'))
