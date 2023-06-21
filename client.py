@@ -17,6 +17,6 @@ with open(path, "rb") as image_file:
     response = requests.post(f'{ip_server}/api', files=files, verify=False, cert=('server.crt','server.key'))
 
 # получаем ответ от сервера
-a = response.json()
-for i in a:
+result = response.json()
+for i in result:
     print(json.loads(i))

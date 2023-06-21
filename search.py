@@ -7,58 +7,56 @@ import cv2
 import PIL.Image
 from io import BytesIO
 import numpy as np
-import json
 
 with open('dataset_faces.dat', 'rb') as file:
 	encodeListKnown = pickle.load(file)
 
 with open('dataset_name.dat', 'rb') as file:
-	name = pickle.load(file)
+	id_acc = pickle.load(file)
 
-connect = sqlite3.connect('base.db', check_same_thread=False)
+connect = sqlite3.connect('base.db') #Connecting to an existing database
 cursor = connect.cursor()
 
-def search_a(id_vk):
-	cursor.execute(f"""SELECT * FROM users WHERE id_vk = '{id_vk}';""")
-	us = cursor.fetchone()
-	return us
+def search_person_info(id_person):
+    """Search for user information by id"""
+    cursor.execute(f"""SELECT * FROM users WHERE id_vk = '{id_person}';""")
+    person_info = cursor.fetchone()
+    return person_info
 
-def search(x):
+def search(data_image):
+    """Getting data about a person"""
     fases = []
     id_vk = []
-    name_a = []
+    inform_list = []
 
-    im = PIL.Image.open(x)
-    facesCurFrame = face_recognition.face_locations(np.array(im))
-    face_encoding_1 = face_recognition.face_encodings(np.array(im), facesCurFrame)
-    if face_encoding_1 != []:
-        for face_encoding in face_encoding_1:
-            a = 0
+    image = PIL.Image.open(BytesIO(data_image))
+    facesCurFrame = face_recognition.face_locations(np.array(image))
+    faces_encoding = face_recognition.face_encodings(np.array(image), facesCurFrame)
+    if faces_encoding != []:
+        for face_encoding in faces_encoding:
+            i = 0
             while True:
                 try:
-                    encoding = encodeListKnown[a]
+                    encoding = encodeListKnown[i]
                     results = face_recognition.compare_faces([face_encoding], encoding)
 
                     if results[0] == True:
-                        p = name[a]
-                        if p not in id_vk:
-                            id_vk.append(p)
+                        id_person = id_acc[i]
+                        if id_person not in id_vk:
+                            id_vk.append(id_person)
                     else:
                         pass
 
-                    a += 1
+                    i += 1
                 except:
                     break
 
         if id_vk != []:
             for x in id_vk:
-                us = search_a(x)
-                user = {'status': '🟢', 'id': x, 'name': us[1], 'bdate': us[2], 'city': us[3], 'country': us[4]}
-                name_a.append(json.dumps(user))
+                person_info = search_person_info(x)
+                inform_list.append(f'🟢 id: {x}, Name: {person_info[1]}, Bdate: {person_info[2]}, City: {person_info[3]}, Country: {person_info[4]}')
         else:
-            user = {'status': '🟡', 'text': 'Not Found'}
-            name_a.append(json.dumps(user))
+            inform_list.append('🟡 Not Found')
     else:
-        user = {'status': '🔴', 'text': 'Face not found'}
-        name_a.append(json.dumps(user))
-    return name_a
+        inform_list.append('🔴 Face not found')
+    return inform_list

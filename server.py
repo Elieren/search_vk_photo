@@ -11,8 +11,8 @@ def content():
     byte_stream = io.BytesIO()
     byte_stream.write(file.read())
 
-    data = search(byte_stream)
-    return data
+    info = search(byte_stream)
+    return info
 
 @app.route('/')
 def status():
