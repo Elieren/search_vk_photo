@@ -6,9 +6,8 @@ import re
 import sqlite3
 import pickle
 
-name = []
-namd = []
-mam = []
+id_in_frame_arr = []
+in_frame = []
 
 with open('dataset_faces.dat', 'rb') as file:
 	encodeListKnown = pickle.load(file)
@@ -19,26 +18,26 @@ with open('dataset_name.dat', 'rb') as file:
 connect = sqlite3.connect('base.db') #Connecting to an existing database
 cursor = connect.cursor()
 
-def search(id_vk):
+def search_person_info(id_person):
     """Search for user information by id"""
-    cursor.execute(f"""SELECT * FROM users WHERE id_vk = '{id_vk}';""")
-    us = cursor.fetchone()
-    return us
+    cursor.execute(f"""SELECT * FROM users WHERE id_vk = '{id_person}';""")
+    person_info = cursor.fetchone()
+    return person_info
 
-def nick(name_a):
+def nick(persons):
     """Logging in and out of users"""
-    global namd
-    for x in name_a:
-        if x not in namd:
-            us = search(x)
+    global id_in_frame_arr
+    for x in persons:
+        if x not in id_in_frame_arr:
+            person_info = search_person_info(x)
             print(
-                '\n', f'id: {x}, Name: {us[1]}, Bdate: {us[2]}, City: {us[3]}, Country: {us[4]}')
-            namd.append(x)
+                '\n', f'id: {x}, Name: {person_info[1]}, Bdate: {person_info[2]}, City: {person_info[3]}, Country: {person_info[4]}')
+            id_in_frame_arr.append(x)
         else:
             pass
-    for x in namd:
-        if x not in name_a:
-            namd.remove(x)
+    for x in id_in_frame_arr:
+        if x not in persons:
+            id_in_frame_arr.remove(x)
             print(' id:', x, 'leave')
 
 
@@ -55,8 +54,8 @@ while True:
     #Find faces in a photo
     facesCurFrame = face_recognition.face_locations(imgS)
     encodeCurFrame = face_recognition.face_encodings(imgS, facesCurFrame)
-    nick(mam)
-    mam = []
+    nick(in_frame)
+    in_frame = []
 
     for encodeFace, faceLoc in zip(encodeCurFrame, facesCurFrame):
         #Comparison of a face with a list of faces
@@ -65,13 +64,13 @@ while True:
         matchIndex = np.argmin(faceDis)
 
         if matches[matchIndex]:
-            name_a = str((name[matchIndex]))
-            mam.append(name_a)
+            text_box = str((name[matchIndex]))
+            in_frame.append(text_box)
             Green = 255
             Red = 0
 
         else:
-            name_a = 'Not'
+            text_box = 'Not'
             Green = 0
             Red = 255
 
@@ -81,7 +80,7 @@ while True:
         cv2.rectangle(img, (x1, y1), (x2, y2), (0, Green, Red), 2)
         cv2.rectangle(img, (x1, y2 - 35), (x2, y2),
                         (0, Green, Red), cv2.FILLED)
-        cv2.putText(img, name_a, (x1 + 6, y2 - 6),
+        cv2.putText(img, text_box, (x1 + 6, y2 - 6),
                     cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 2)
 
     cv2.imshow("WebCam", img)

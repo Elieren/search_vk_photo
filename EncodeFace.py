@@ -7,9 +7,9 @@ import re
 import pickle
 from progress.bar import IncrementalBar
 
-serv = str(input('Append (all/one): '))
+choice = str(input('Append (all/one): '))
 
-if serv == 'all':
+if choice == 'all':
     fases = []
     images = []
 
@@ -28,20 +28,20 @@ if serv == 'all':
         """Decoding faces to work with Face_recognition"""
         encodeList = []
         name = []
-        l = 0
+        i = 0
         for img in images:
             try:
                 img_e = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
                 facesCurFrame = face_recognition.face_locations(img_e)
                 encode = face_recognition.face_encodings(img_e, facesCurFrame)[0]
                 encodeList.append(encode)
-                id_p = re.split('/', fases[l])
+                id_p = re.split('/', fases[i])
                 p = id_p[2]
                 name.append(p)
             except:
                 pass
             bar.next()
-            l += 1
+            i += 1
         return encodeList, name
 
 
@@ -55,7 +55,7 @@ if serv == 'all':
     with open('dataset_name.dat', 'wb') as file:
         pickle.dump(name, file)
 
-elif serv == 'one':
+elif choice == 'one':
     connect = sqlite3.connect('base.db') #Connecting to an existing database
     cursor = connect.cursor()
 
@@ -66,7 +66,7 @@ elif serv == 'one':
         name = pickle.load(file)
 
     fold = str(input('Path to photo: '))
-    id_a = str(input('id: '))
+    id_person = str(input('id: '))
     name_a = str(input('name: '))
     bdata = str(input('bdata: '))
     city = str(input('city: '))
@@ -79,13 +79,13 @@ elif serv == 'one':
     try:
         encode = face_recognition.face_encodings(img_e)[0]
         encodeListKnown.append(encode)
-        name.append(id_a)
+        name.append(id_person)
     except:
         pass
     
     #Adding a new user to the databas
     cursor.execute("INSERT INTO users VALUES(?, ?, ?, ?, ?, ?)",
-                   (id_a, name_a, bdata, city, country, 'not'))
+                   (id_person, name_a, bdata, city, country, 'not'))
     connect.commit()
 
     with open('dataset_faces.dat', 'wb') as file:
